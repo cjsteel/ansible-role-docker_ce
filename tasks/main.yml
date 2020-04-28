@@ -21,8 +21,6 @@
     state: present
   when:
     - ansible_pkg_mgr == "apt"
-  notify:
-    - apt update cache
 
 - name: install docker_ce repository for yum
   yum_repository:
@@ -52,6 +50,12 @@
     name: docker
     state: present
     system: yes
+
+- name: update apt cache when package manager
+  apt:
+    update_cache: yes
+  when:
+    - ansible_pkg_mgr == "apt"
 
 - name: install docker_ce
   package:
